@@ -23,9 +23,9 @@ running = 1
 
 while running:
 	# Ask for user to guess a number
-	guess = input("\nEnter your guess: ")
+	guess = input("Enter your guess: ")
 	# Format the guess, ready to send to the server
-	guessstring = "Guess: " + str(guess)
+	guessstring = "Guess: " + str(guess) + "\r\n"
 	# Send the guess
 	clientsocket.send(guessstring.encode('ascii'))
 
@@ -34,7 +34,7 @@ while running:
 	print (response)
 
 	# Determine if the game is over
-	if (response == "Correct"):
+	if (response == "Correct\r\n"):
 		running = 0
 
 clientsocket.close()

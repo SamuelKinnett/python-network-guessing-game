@@ -33,7 +33,7 @@ def handleclient(clientsocket, clientaddress):
 		running = 1
 		# If the player has guessed correctly
 		if (guess == numbertoguess):
-			messagetosend = ("Correct")
+			messagetosend = ("Correct\r\n")
 			clientsocket.send(messagetosend.encode('ascii'))
 			running = 0
 		else:
