@@ -50,7 +50,7 @@ def handleclient(clientsocket, clientaddress):
 	print("Connection closed.")
 
 def generatenumber():
-	return random.randrange(1, 10)
+	return random.randrange(1, 20)
 
 # Main server loop
 
