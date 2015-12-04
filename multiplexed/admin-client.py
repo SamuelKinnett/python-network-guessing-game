@@ -25,22 +25,35 @@ adminsocket.send(message.encode('ascii'))
 response = adminsocket.recv(1024)
 print(response.decode('ascii'))
 
-print ("┌────────────────────┐")
-print ("│ Connected Clients: │")
-print ("├────────────────────┤")
-
 message = "Who\r\n"
 adminsocket.send(message.encode('ascii'))
 
 response = adminsocket.recv(1024).decode('ascii')
 connectedusers = response.split('\r\n')
+# Remove the extra empty element
+del connectedusers[-1]
+
+print ("Users online: " + str(len(connectedusers)))
+
+print ("┌───────────────┬──────┐")
+print ("│ IP Address    │ Port │")
+print ("├───────────────┼──────┤")
 
 for user in connectedusers:
-    padding = 19 - len(user)
-    paddingstring = ""
-    for i in range (0, padding):
-        paddingstring += " "
-    print(colours.SYSTEMPROMPTS + "│ " + colours.SOCKETDATA +  user + paddingstring + colours.SYSTEMPROMPTS +  "│")
+    ippadding = 15 - len(user.split()[0])
+    ippaddingstring = ""
+    for i in range (0, ippadding):
+        ippaddingstring += " "
+    portpadding = 6 - len(user.split()[1])
+    portpaddingstring = ""
+    for i in range (0, portpadding):
+        portpaddingstring += " "
 
-print ("└────────────────────┘")
+    print(colours.SYSTEMPROMPTS + "│" + 
+            colours.SOCKETDATA + user.split()[0] + ippaddingstring + 
+            colours.SYSTEMPROMPTS +  "│" + 
+            colours.SOCKETDATA + user.split()[1] + portpaddingstring +
+            colours.SYSTEMPROMPTS +  "│")
+
+print ("└───────────────┴──────┘")
 print (colours.DEFAULT)
