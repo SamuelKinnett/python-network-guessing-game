@@ -1,7 +1,18 @@
 from socket import *
 
-print ("Number Guessing Game V1.0\n\n")
-print ("Connecting to server...\n")
+# Class to store colour escape codes. General idea from:
+# http://stackoverflow.com/questions/287871/print-in-terminal-with-colors-using-python
+# Escape codes found at:
+# http://ascii-table.com/ansi-escape-sequences.php
+
+class colours:
+    DEFAULT = '\033[40;37m' #Black background, White foreground
+    TITLEBAR = '\033[44;37m' #Blue background, White foreground
+    SYSTEMPROMPTS = '\033[40;36m' #Black background, Cyan foreground
+    SERVERRESPONSES = '\033[40;35m' #Black background, Magenta foreground
+
+print (colours.TITLEBAR + "Number Guessing Game V1.0")
+print (colours.SYSTEMPROMPTS + "Connecting to server...\n")
 
 # Set up the socket as an Internet facing streaming socket
 clientsocket = socket(AF_INET, SOCK_STREAM)
@@ -23,7 +34,7 @@ running = 1
 
 while running:
 	# Ask for user to guess a number
-	guess = input("Enter your guess: ")
+	guess = input(colours.SYSTEMPROMPTS + "Enter your guess: ")
 	# Format the guess, ready to send to the server
 	guessstring = "Guess: " + str(guess) + "\r\n"
 	# Send the guess
@@ -31,10 +42,12 @@ while running:
 
 	# Wait for the response from the server
 	response = clientsocket.recv(1024).decode('ascii')
-	print (response)
+	print (colours.SERVERRESPONSES + response)
 
 	# Determine if the game is over
 	if (response == "Correct\r\n"):
 		running = 0
 
 clientsocket.close()
+# Reset the colours
+print(colours.DEFAULT)
