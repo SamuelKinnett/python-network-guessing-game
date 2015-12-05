@@ -1,6 +1,7 @@
 import random
 from socket import *
 from select import *
+import ssl
 
 # Set up the sockets
 
@@ -97,11 +98,26 @@ while 1:
         if (currentsocket == serversocket):
             (clientsocket, clientaddress) = serversocket.accept()
             activesockets.append(clientsocket)
-            print("Connection received from: ", clientaddress)
+            # print("Connection received from: ", clientaddress)
         elif (currentsocket == adminsocket):
             (newadminsocket, newadminsocketaddress) = adminsocket.accept()
-            activesockets.append(newadminsocket)
-            activeadminsockets.append(newadminsocket)
-            print("Admin connected from: ", newadminsocketaddress)
+            secureadmin = ssl.wrap_socket(newadminsocket,
+                    certfile = "5cc515_server.crt",
+                    keyfile = "5cc515_server.key",
+                    server_side = True,
+                    cert_reqs = ssl.CERT_REQUIRED,
+                    ca_certs="5cc515-root-ca.crt")
+            activesockets.append(secureadmin)
+            activeadminsockets.append(secureadmin)
+            # print("Admin connected from: ", newadminsocketaddress)
         else:    
-            handleclient(currentsocket)
+            try:
+                handleclient(currentsocket)
+            except socket.error:
+                # We've lost connection to the client mid-process
+                print ("Lost connection to " + currentsocket.getpeename())
+                activesockets.remove(currentsocket)
+                if clientsocket in numberdictionary:
+                    del numberdictionary[clientsocket]
+                if clientsocket in activeadminsockets:
+                    activeadminsockets.remove(currentsocket)

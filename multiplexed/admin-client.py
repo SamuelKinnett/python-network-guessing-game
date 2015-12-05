@@ -1,5 +1,6 @@
 from socket import *
 import os
+import ssl
 
 # Class to store colour escape codes. General idea from:
 # http://stackoverflow.com/questions/287871/print-in-terminal-with-colors-using-python
@@ -32,7 +33,15 @@ print (colours.TITLEBAR + "Number Guessing Game Admin Client V1.0")
 print (colours.SYSTEMPROMPTS + "Connecting to server...\n")
 
 # Set up the socket as an Internet facing streaming socket
-adminsocket = socket(AF_INET, SOCK_STREAM)
+newsocket = socket(AF_INET, SOCK_STREAM)
+
+# Wrap the socket using SSL
+adminsocket = ssl.wrap_socket(newsocket,
+        certfile = "100320071.crt",
+        keyfile = "100320071.key",
+        server_side = False,
+        ca_certs="5cc515-root-ca.crt")
+
 # Connect to the server on port 4001
 try:
     adminsocket.connect(('localhost', 4001))
