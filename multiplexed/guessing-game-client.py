@@ -69,4 +69,5 @@ clientsocket.close()
 # Reset the colours
 print(colours.DEFAULT)
 # Add a pause for when the program is being run on windows
+print("Press enter to exit...")
 input();

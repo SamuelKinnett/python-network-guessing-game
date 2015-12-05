@@ -85,7 +85,7 @@ def handleclient(clientsocket):
                 clientsocket.send(messagetosend.encode('ascii'))
 
 def generatenumber():
-    return random.randrange(1, 10)
+    return random.randrange(1, 20)
 
 # Main server loop
 
