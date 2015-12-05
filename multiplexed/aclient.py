@@ -66,9 +66,9 @@ del connectedusers[-1]
 
 print ("Users online: " + str(len(connectedusers)))
 
-print ("┌───────────────┬──────┐")
-print ("│  IP Address   │ Port │")
-print ("├───────────────┼──────┤")
+print ("+---------------+------+")
+print ("|  IP Address   | Port |")
+print ("+---------------+------+")
 
 for user in connectedusers:
     ippadding = 15 - len(user.split()[0])
@@ -80,13 +80,13 @@ for user in connectedusers:
     for i in range (0, portpadding):
         portpaddingstring += " "
 
-    print(colours.SYSTEMPROMPTS + "│" + 
+    print(colours.SYSTEMPROMPTS + "|" + 
             colours.SOCKETDATA + user.split()[0] + ippaddingstring + 
-            colours.SYSTEMPROMPTS +  "│" + 
+            colours.SYSTEMPROMPTS +  "|" + 
             colours.SOCKETDATA + user.split()[1] + portpaddingstring +
-            colours.SYSTEMPROMPTS +  "│")
+            colours.SYSTEMPROMPTS +  "|")
 
-print ("└───────────────┴──────┘")
+print ("+---------------+------+")
 print (colours.DEFAULT)
 # Add a pause for when the program is run on windows
 input()
