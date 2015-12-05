@@ -110,12 +110,11 @@ while 1:
             activesockets.append(secureadmin)
             activeadminsockets.append(secureadmin)
             # print("Admin connected from: ", newadminsocketaddress)
-        else:    
+        else:
             try:
                 handleclient(currentsocket)
-            except socket.error:
-                # We've lost connection to the client mid-process
-                print ("Lost connection to " + currentsocket.getpeename())
+            except:
+                # We've more than likely lost connection to the client
                 activesockets.remove(currentsocket)
                 if clientsocket in numberdictionary:
                     del numberdictionary[clientsocket]
