@@ -1,4 +1,5 @@
 from socket import *
+import os
 
 # Class to store colour escape codes. General idea from:
 # http://stackoverflow.com/questions/287871/print-in-terminal-with-colors-using-python
@@ -6,11 +7,27 @@ from socket import *
 # http://ascii-table.com/ansi-escape-sequences.php
 
 class colours:
-    DEFAULT = '\033[40;37m' #Black background, White foreground
-    TITLEBAR = '\033[44;37m' #Blue background, White foreground
-    SYSTEMPROMPTS = '\033[40;36m' #Black background, Cyan foreground
-    SERVERRESPONSES = '\033[40;35m' #Black background, Magenta foreground
+    if (os.name != 'nt'):
+        # If we're not on Winblows, enable colours
+        DEFAULT = '\033[40;37m' #Black background, White foreground
+        TITLEBAR = '\033[44;37m' #Blue background, White foreground
+        SYSTEMPROMPTS = '\033[40;36m' #Black background, Cyan foreground
+        SERVERRESPONSES = '\033[40;35m' #Black background, Magenta foreground
+    else:
+        DEFAULT = ''
+        TITLEBAR = ''
+        SYSTEMPROMPTS = ''
+        SERVERRESPONSES = ''
 
+# Cross platform function to clear the console. Implemented from:
+# http://stackoverflow.com/questions/517970/how-to-clear-python-interpreter-console
+
+def clearscreen():
+    # Cross platform method to clear the console. Calls the OS' clear method:
+    # 'cls' if on windows, otherwise 'clear'
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+clearscreen()
 print (colours.TITLEBAR + "Number Guessing Game V1.0")
 print (colours.SYSTEMPROMPTS + "Connecting to server...\n")
 
@@ -51,3 +68,5 @@ while running:
 clientsocket.close()
 # Reset the colours
 print(colours.DEFAULT)
+# Add a pause for when the program is being run on windows
+input();
